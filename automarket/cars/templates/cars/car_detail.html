@@ -1,0 +1,98 @@
+{% extends 'cars/base.html' %}
+{% block title %}{{ car }} — AutoMarket{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'catalog' %}">Каталог</a></li>
+      <li class="breadcrumb-item active">{{ car }}</li>
+    </ol>
+  </nav>
+
+  <div class="row g-5">
+    <div class="col-lg-7">
+      {% if car.image %}
+        <img src="{{ car.image.url }}" class="img-fluid rounded-3 w-100" style="max-height:420px;object-fit:cover" alt="{{ car }}">
+      {% else %}
+        <div class="rounded-3 d-flex align-items-center justify-content-center"
+             style="height:380px;background:linear-gradient(135deg,#1e2830,#2d4a6e)">
+          <i class="bi bi-car-front" style="font-size:7rem;color:rgba(255,255,255,.2)"></i>
+        </div>
+      {% endif %}
+      {% if car.description %}
+      <div class="mt-4">
+        <h5 class="fw-bold">Описание</h5>
+        <p class="text-muted">{{ car.description }}</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="col-lg-5">
+      <span class="badge px-3 py-2 mb-2" style="background:var(--accent)">
+        {% if car.condition == 'new' %}НОВЫЙ{% else %}С ПРОБЕГОМ{% endif %}
+      </span>
+      <h1 class="fw-black">{{ car.brand.name }} {{ car.model }}</h1>
+      <p class="text-muted">{{ car.year }} год</p>
+      <div class="car-price mb-4" style="font-size:2rem">{{ car.price|floatformat:0 }} ₸</div>
+
+      <table class="table table-sm table-borderless mb-4">
+        <tr><td class="text-muted">Топливо</td><td class="fw-bold">{{ car.get_fuel_display }}</td></tr>
+        <tr><td class="text-muted">Коробка</td><td class="fw-bold">{{ car.get_transmission_display }}</td></tr>
+        <tr><td class="text-muted">Мощность</td><td class="fw-bold">{{ car.horsepower }} л.с.</td></tr>
+        <tr><td class="text-muted">Объём</td><td class="fw-bold">{{ car.engine_volume }} л</td></tr>
+        <tr><td class="text-muted">Кузов</td><td class="fw-bold">{{ car.get_body_display }}</td></tr>
+        {% if car.color %}<tr><td class="text-muted">Цвет</td><td class="fw-bold">{{ car.color }}</td></tr>{% endif %}
+        {% if car.mileage %}<tr><td class="text-muted">Пробег</td><td class="fw-bold">{{ car.mileage|floatformat:0 }} км</td></tr>{% endif %}
+      </table>
+
+      <div class="card border-0 p-4 rounded-3" style="background:#f8f8f8">
+        <h5 class="fw-bold mb-3">Оставить заявку</h5>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-2">{{ form.name }}</div>
+          <div class="mb-2">{{ form.phone }}</div>
+          <div class="mb-3">{{ form.request_type }}</div>
+          <input type="hidden" name="car" value="{{ car.pk }}">
+          <button type="submit" class="btn btn-accent w-100 fw-bold">
+            <i class="bi bi-send me-2"></i>Отправить заявку
+          </button>
+        </form>
+        <a href="tel:+996312000000" class="btn btn-outline-dark w-100 mt-2">
+          <i class="bi bi-telephone me-2"></i>Позвонить
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% if similar %}
+  <div class="mt-5">
+    <h4 class="fw-bold mb-4">Похожие автомобили</h4>
+    <div class="row g-4">
+      {% for s in similar %}
+      <div class="col-md-4">
+        <div class="car-card card">
+          {% if s.image %}
+            <img src="{{ s.image.url }}" class="card-img-top" alt="{{ s }}">
+          {% else %}
+            <div class="car-img-placeholder">
+              <i class="bi bi-car-front" style="font-size:3rem;color:rgba(255,255,255,.3)"></i>
+            </div>
+          {% endif %}
+          <div class="card-body">
+            <div class="small fw-bold" style="color:var(--accent)">{{ s.brand.name }}</div>
+            <h6 class="fw-bold">{{ s.model }} {{ s.year }}</h6>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <span class="car-price" style="font-size:1.1rem">{{ s.price|floatformat:0 }} ₸</span>
+              <a href="{% url 'car_detail' s.pk %}" class="btn btn-accent btn-sm">Открыть</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

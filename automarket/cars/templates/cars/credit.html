@@ -1,0 +1,45 @@
+{% extends 'cars/base.html' %}
+{% block title %}Автокредит — AutoMarket{% endblock %}
+
+{% block content %}
+<section class="hero py-5" style="min-height:260px">
+  <div class="container">
+    <h1 class="display-5 fw-black text-white mb-2">
+      Автокредит от <span style="color:var(--accent)">3.9%</span>
+    </h1>
+    <p class="text-white-50 fs-5">Одобрение за 1 час. 11 банков-партнёров. Без первого взноса.</p>
+  </div>
+</section>
+
+<div class="container py-5">
+  <div class="row g-4 mb-5">
+    {% for num, label in credit_stats %}
+    <div class="col-md-3">
+      <div class="text-center p-4 rounded-3 bg-white shadow-sm">
+        <div style="font-size:2rem;font-weight:900;color:var(--accent)">{{ num }}</div>
+        <div class="small text-muted">{{ label }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <h3 class="fw-bold mb-1">Заявка на кредит</h3>
+      <div class="divider mb-4"></div>
+      <div class="card border-0 shadow-sm p-4 rounded-3">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">{{ form.name.label_tag }}{{ form.name }}</div>
+          <div class="mb-3">{{ form.phone.label_tag }}{{ form.phone }}</div>
+          <div class="mb-3">{{ form.car.label_tag }}{{ form.car }}</div>
+          <div class="mb-3">{{ form.message.label_tag }}{{ form.message }}</div>
+          <button type="submit" class="btn btn-accent btn-lg w-100 fw-bold">
+            <i class="bi bi-send me-2"></i>Отправить заявку
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

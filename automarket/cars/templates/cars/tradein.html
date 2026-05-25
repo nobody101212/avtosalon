@@ -1,0 +1,49 @@
+{% extends 'cars/base.html' %}
+{% block title %}Trade-in — AutoMarket{% endblock %}
+
+{% block content %}
+<section class="hero py-5" style="min-height:260px">
+  <div class="container">
+    <h1 class="display-5 fw-black text-white mb-2">
+      Trade-in — <span style="color:var(--accent)">просто и выгодно</span>
+    </h1>
+    <p class="text-white-50 fs-5">Обменяйте старый автомобиль на новый за один визит.</p>
+  </div>
+</section>
+
+<div class="container py-5">
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <h3 class="fw-bold mb-1">Заявка на Trade-in</h3>
+      <div class="divider mb-4"></div>
+      <div class="card border-0 shadow-sm p-4 rounded-3">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">{{ form.name.label_tag }}{{ form.name }}</div>
+          <div class="mb-3">{{ form.phone.label_tag }}{{ form.phone }}</div>
+          <div class="mb-3">{{ form.message.label_tag }}{{ form.message }}</div>
+          <button type="submit" class="btn btn-accent btn-lg w-100 fw-bold">
+            <i class="bi bi-send me-2"></i>Отправить заявку
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <h3 class="fw-bold mb-1">Как это работает</h3>
+      <div class="divider mb-4"></div>
+      {% for step, desc in steps %}
+      <div class="d-flex gap-3 mb-4">
+        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+             style="width:44px;height:44px;background:var(--accent);color:#fff;font-weight:900">
+          {{ forloop.counter }}
+        </div>
+        <div>
+          <h6 class="fw-bold mb-1">{{ step }}</h6>
+          <p class="text-muted small mb-0">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

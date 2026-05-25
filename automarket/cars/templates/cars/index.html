@@ -1,0 +1,147 @@
+{% extends 'cars/base.html' %}
+{% block title %}AutoMarket — Автосалон в Бишкеке{% endblock %}
+
+{% block content %}
+
+<section class="hero py-5">
+  <div class="container">
+    <div class="col-lg-6">
+      <span class="badge px-3 py-2 mb-3" style="background:var(--accent);letter-spacing:2px">ОФИЦИАЛЬНЫЙ ДИЛЕР</span>
+      <h1 class="display-4 text-white mb-3" style="font-weight:900;line-height:1.1">
+        Найди свой<br><span style="color:var(--accent)">идеальный</span><br>автомобиль
+      </h1>
+      <p class="text-white-50 fs-5 mb-4">Более {{ total_cars }} автомобилей в наличии.<br>Кредит от 3.9% · Trade-in · Страхование</p>
+      <div class="d-flex gap-3 flex-wrap">
+        <a href="{% url 'catalog' %}" class="btn btn-accent btn-lg px-4">
+          <i class="bi bi-grid me-2"></i>Каталог
+        </a>
+        <a href="#lead-form" class="btn btn-outline-light btn-lg px-4">
+          <i class="bi bi-car-front me-2"></i>Тест-драйв
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="container">
+    <div class="row">
+      <div class="col-3 stat-item border-end border-white border-opacity-25">
+        <div class="stat-num">{{ total_cars }}+</div><div class="stat-label">Авто в наличии</div>
+      </div>
+      <div class="col-3 stat-item border-end border-white border-opacity-25">
+        <div class="stat-num">12</div><div class="stat-label">Лет на рынке</div>
+      </div>
+      <div class="col-3 stat-item border-end border-white border-opacity-25">
+        <div class="stat-num">3.9%</div><div class="stat-label">Кредит от</div>
+      </div>
+      <div class="col-3 stat-item">
+        <div class="stat-num">5000+</div><div class="stat-label">Клиентов</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if featured_cars %}
+<section class="py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <h2 class="section-title">Хиты <span>продаж</span></h2>
+        <div class="divider"></div>
+      </div>
+      <a href="{% url 'catalog' %}" class="btn btn-outline-danger">Все авто <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="row g-4">
+      {% for car in featured_cars %}
+      <div class="col-md-4">
+        <div class="car-card card h-100 position-relative">
+          {% if car.image %}
+            <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car }}">
+          {% else %}
+            <div class="car-img-placeholder">
+              <i class="bi bi-car-front" style="font-size:4rem;color:rgba(255,255,255,.3)"></i>
+            </div>
+          {% endif %}
+          <span class="badge position-absolute top-0 start-0 m-2" style="background:var(--accent)">
+            {% if car.condition == 'new' %}НОВЫЙ{% else %}С ПРОБЕГОМ{% endif %}
+          </span>
+          <div class="card-body">
+            <div class="small fw-bold mb-1" style="color:var(--accent)">{{ car.brand.name }}</div>
+            <h5 class="fw-bold mb-1">{{ car.model }} {{ car.year }}</h5>
+            <div class="text-muted small mb-3">
+              {{ car.engine_volume }} л · {{ car.horsepower }} л.с. · {{ car.get_transmission_display }}
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="car-price">{{ car.price|floatformat:0 }} ₸</div>
+              <a href="{% url 'car_detail' car.pk %}" class="btn btn-accent btn-sm">Подробнее</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="py-5" style="background:#fff">
+  <div class="container">
+    <h2 class="section-title text-center mb-1">Наши <span>услуги</span></h2>
+    <div class="divider mx-auto mb-5"></div>
+    <div class="row g-4 text-center">
+      {% for icon, title, desc, url in services %}
+      <div class="col-md-3">
+        <div class="p-4 rounded-3 h-100" style="background:#f8f8f8">
+          <div class="mb-3" style="font-size:2.5rem;color:var(--accent)"><i class="bi bi-{{ icon }}"></i></div>
+          <h5 class="fw-bold">{{ title }}</h5>
+          <p class="text-muted small">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="py-5" style="background:var(--accent)">
+  <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div class="text-white">
+      <p class="small text-uppercase fw-bold mb-1" style="letter-spacing:2px;opacity:.85">Выгодный обмен</p>
+      <h2 class="fw-black mb-1" style="font-size:2rem">Trade-in — просто и выгодно</h2>
+      <p class="mb-0 opacity-75">Оценим ваш авто за 5 минут. Зачтём в счёт нового.</p>
+    </div>
+    <a href="{% url 'tradein' %}" class="btn btn-light btn-lg fw-bold px-5" style="color:var(--accent)">
+      Оценить мой автомобиль
+    </a>
+  </div>
+</section>
+
+<section class="py-5" id="lead-form">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-3 p-4">
+          <h3 class="fw-bold mb-1">Оставить заявку</h3>
+          <div class="divider mb-4"></div>
+          <form method="post">
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-md-6">{{ form.name.label_tag }}{{ form.name }}</div>
+              <div class="col-md-6">{{ form.phone.label_tag }}{{ form.phone }}</div>
+              <div class="col-md-6">{{ form.car.label_tag }}{{ form.car }}</div>
+              <div class="col-md-6">{{ form.request_type.label_tag }}{{ form.request_type }}</div>
+              <div class="col-12">{{ form.message.label_tag }}{{ form.message }}</div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-accent btn-lg w-100 fw-bold">
+                  <i class="bi bi-send me-2"></i>Отправить заявку
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

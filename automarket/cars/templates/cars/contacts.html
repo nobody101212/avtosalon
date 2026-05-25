@@ -1,0 +1,71 @@
+{% extends 'cars/base.html' %}
+{% block title %}Контакты — AutoMarket{% endblock %}
+
+{% block content %}
+<section class="hero py-5" style="min-height:220px">
+  <div class="container">
+    <h1 class="display-5 fw-black text-white mb-2"><span style="color:var(--accent)">Контакты</span></h1>
+    <p class="text-white-50">Мы всегда рады помочь</p>
+  </div>
+</section>
+
+<div class="container py-5">
+  <div class="row g-5">
+    <div class="col-lg-5">
+      <h3 class="fw-bold mb-1">Написать нам</h3>
+      <div class="divider mb-4"></div>
+      <div class="card border-0 shadow-sm p-4 rounded-3">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">{{ form.name.label_tag }}{{ form.name }}</div>
+          <div class="mb-3">{{ form.phone.label_tag }}{{ form.phone }}</div>
+          <div class="mb-3">{{ form.request_type.label_tag }}{{ form.request_type }}</div>
+          <div class="mb-3">{{ form.message.label_tag }}{{ form.message }}</div>
+          <button type="submit" class="btn btn-accent btn-lg w-100 fw-bold">
+            <i class="bi bi-send me-2"></i>Отправить
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <h3 class="fw-bold mb-1">Как нас найти</h3>
+      <div class="divider mb-4"></div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <div class="p-4 rounded-3 bg-white shadow-sm h-100">
+            <i class="bi bi-geo-alt fs-2 mb-2" style="color:var(--accent)"></i>
+            <h6 class="fw-bold">Адрес</h6>
+            <p class="text-muted small mb-0">ул. Примерная, 1, Бишкек</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-4 rounded-3 bg-white shadow-sm h-100">
+            <i class="bi bi-clock fs-2 mb-2" style="color:var(--accent)"></i>
+            <h6 class="fw-bold">Режим работы</h6>
+            <p class="text-muted small mb-0">Пн–Сб: 9:00–20:00<br>Вс: 10:00–18:00</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-4 rounded-3 bg-white shadow-sm h-100">
+            <i class="bi bi-telephone fs-2 mb-2" style="color:var(--accent)"></i>
+            <h6 class="fw-bold">Телефон</h6>
+            <p class="text-muted small mb-0">
+              <a href="tel:+996312000000">+996 (312) 000-000</a>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-4 rounded-3 bg-white shadow-sm h-100">
+            <i class="bi bi-envelope fs-2 mb-2" style="color:var(--accent)"></i>
+            <h6 class="fw-bold">Email</h6>
+            <p class="text-muted small mb-0">
+              <a href="mailto:info@automarket.kg">info@automarket.kg</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

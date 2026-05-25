@@ -1,0 +1,42 @@
+{% extends 'cars/base.html' %}
+{% block title %}О нас — AutoMarket{% endblock %}
+
+{% block content %}
+<section class="hero py-5" style="min-height:240px">
+  <div class="container">
+    <h1 class="display-5 fw-black text-white mb-2">О <span style="color:var(--accent)">нас</span></h1>
+    <p class="text-white-50">AutoMarket — ваш надёжный партнёр в мире автомобилей</p>
+  </div>
+</section>
+
+<div class="container py-5">
+  <div class="row g-5 align-items-center">
+    <div class="col-lg-6">
+      <h2 class="section-title mb-1">12 лет <span>на рынке</span></h2>
+      <div class="divider mb-4"></div>
+      <p class="text-muted">AutoMarket — официальный дилер ведущих автомобильных брендов. За 12 лет работы мы помогли более 5000 клиентам найти свой идеальный автомобиль.</p>
+      <p class="text-muted">Мы предлагаем широкий выбор новых автомобилей и с пробегом, выгодные условия кредитования, обмен по программе Trade-in и профессиональный сервис.</p>
+      <div class="row g-3 mt-2">
+        <div class="col-6">
+          <div class="p-3 rounded-3 text-center bg-white shadow-sm">
+            <div style="font-size:1.8rem;font-weight:900;color:var(--accent)">5000+</div>
+            <div class="small text-muted">Довольных клиентов</div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="p-3 rounded-3 text-center bg-white shadow-sm">
+            <div style="font-size:1.8rem;font-weight:900;color:var(--accent)">200+</div>
+            <div class="small text-muted">Авто в наличии</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="rounded-3 d-flex align-items-center justify-content-center"
+           style="height:350px;background:linear-gradient(135deg,#1e2830,#2d4a6e)">
+        <i class="bi bi-building" style="font-size:7rem;color:rgba(255,255,255,.2)"></i>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
